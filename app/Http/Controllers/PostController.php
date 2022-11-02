@@ -15,7 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::where('is_public', true)
+            ->orderBy('published_at', 'desc')
+            ->paginate(10);
     }
 
     /**
@@ -45,9 +47,11 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(int $id)
     {
-        //
+        $post = Post::where('is_public', true)->findOrFail($id);
+
+        return view('front.posts.show', compact('post'));
     }
 
     /**
